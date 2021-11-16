@@ -2,7 +2,7 @@ import tensorflow as tf
 import pandas as pd
 import numpy as np
 import tensorflow.keras as keras
-import matplotlib.pyplot as plt
+
 
 train = pd.read_csv("./sign_mnist_train/sign_mnist_train.csv")
 test = pd.read_csv("./sign_mnist_test/sign_mnist_test.csv")
@@ -31,23 +31,14 @@ X_test = X_test.values.reshape(-1,28,28,1)
 print("x_train shape: ",X_train.shape)
 print("x_test shape: ",X_test.shape)
 
-
-
-plt.imshow(X_train[2],cmap='gray')
-plt.title(train.iloc[10,0])
-plt.axis("off")
-plt.show()
-
-
-
 model = keras.models.Sequential([
-    keras.layers.Conv2D(filters=64, kernel_size=7, input_shape=[28, 28, 1]),
+    keras.layers.Conv2D(filters=64, kernel_size=3, input_shape=[28, 28, 1]),
     keras.layers.MaxPooling2D(pool_size=2),
-    keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding="SAME"),
-    keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding="SAME"),
+    keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding='same'),
+    keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding='same'),
     keras.layers.MaxPooling2D(pool_size=2),
-    keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding="SAME"),
-    keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding="SAME"),
+    keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding='same'),
+    keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding='same'),
     keras.layers.MaxPooling2D(pool_size=2),
     keras.layers.Flatten(),
     keras.layers.Dense(units=128, activation='relu'),
@@ -61,7 +52,7 @@ model.summary()
 
 model.compile(
     loss="sparse_categorical_crossentropy",
-    optimizer = 'nadam',
+    optimizer = 'adam',
     metrics=['accuracy']
 )
 
